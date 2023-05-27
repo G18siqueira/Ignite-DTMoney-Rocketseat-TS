@@ -1,7 +1,6 @@
+import * as Dialog from '@radix-ui/react-dialog'
 import { AiOutlineClose } from 'react-icons/ai'
 import { CloseButton, Content, Overlay } from './style'
-
-import * as Dialog from '@radix-ui/react-dialog'
 
 export const NewTransactionModal = () => {
   return (
