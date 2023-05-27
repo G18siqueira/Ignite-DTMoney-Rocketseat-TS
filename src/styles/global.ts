@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyle = createGlobalStyle`
 *{
@@ -9,7 +9,7 @@ export const GlobalStyle = createGlobalStyle`
 }
 &:focus{
   outline: 0;
-  box-shadow: 0 0 0 2px ${props => props.theme['green-500']};
+  box-shadow: 0 0 0 2px ${(props) => props.theme['green-500']};
 }
 
 body{
@@ -23,4 +23,11 @@ body, input, textarea, button{
     font-weight: 400;
     font-size: 1rem;
   }
+`
+
+export const Container = styled.div`
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
 `
