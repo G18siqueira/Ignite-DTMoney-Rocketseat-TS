@@ -90,7 +90,7 @@ export const TransactionTypeButton = styled(
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.1s ease-in-out;
-  box-shadow: none;
+  box-shadow: none !important;
 
   &[data-state='checked'] {
     background-color: ${(props) =>

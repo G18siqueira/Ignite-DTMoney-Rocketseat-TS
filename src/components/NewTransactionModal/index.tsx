@@ -12,13 +12,13 @@ import { BsArrowUpCircle, BsArrowDownCircle } from 'react-icons/bs'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import * as z from 'zod'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 
 const newTransactionFormSchema = z.object({
   description: z.string(),
   category: z.string(),
   price: z.number(),
-  // type: z.enum(['income', 'outcome']),
+  type: z.enum(['income', 'outcome']),
 })
 
 type newTransactionFormInputs = z.infer<typeof newTransactionFormSchema>
@@ -26,10 +26,14 @@ type newTransactionFormInputs = z.infer<typeof newTransactionFormSchema>
 export const NewTransactionModal = () => {
   const {
     register,
+    control,
     handleSubmit,
     formState: { isSubmitting },
   } = useForm<newTransactionFormInputs>({
     resolver: zodResolver(newTransactionFormSchema),
+    defaultValues: {
+      type: 'income',
+    },
   })
 
   const handleCreateNewTransaction = async (data: newTransactionFormInputs) => {
@@ -67,16 +71,27 @@ export const NewTransactionModal = () => {
             required
           />
 
-          <TransactionType>
-            <TransactionTypeButton colorvariant="income" value="income">
-              <BsArrowUpCircle size={24} />
-              <span>Entrada</span>
-            </TransactionTypeButton>
-            <TransactionTypeButton colorvariant="outcome" value="outcome">
-              <BsArrowDownCircle size={24} />
-              <span>Saída</span>
-            </TransactionTypeButton>
-          </TransactionType>
+          <Controller
+            control={control}
+            name="type"
+            render={({ field }) => {
+              return (
+                <TransactionType
+                  onValueChange={field.onChange}
+                  value={field.value}
+                >
+                  <TransactionTypeButton colorvariant="income" value="income">
+                    <BsArrowUpCircle size={24} />
+                    <span>Entrada</span>
+                  </TransactionTypeButton>
+                  <TransactionTypeButton colorvariant="outcome" value="outcome">
+                    <BsArrowDownCircle size={24} />
+                    <span>Saída</span>
+                  </TransactionTypeButton>
+                </TransactionType>
+              )
+            }}
+          />
 
           <button type="submit" disabled={isSubmitting}>
             Cadastrar
