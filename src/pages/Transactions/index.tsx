@@ -1,6 +1,6 @@
-import { Summary } from '../../components/Summary/Summary'
+import { Summary } from '../../components/Summary'
 import { Container } from '../../styles/global'
-import { Search } from './components/Search/Search'
+import { Search } from './components/Search'
 import {
   PriceHighLight,
   TransactionsContainer,
