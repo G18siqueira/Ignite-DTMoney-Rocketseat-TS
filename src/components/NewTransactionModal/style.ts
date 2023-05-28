@@ -58,8 +58,13 @@ export const Form = styled.form`
     cursor: pointer;
     transition: all 0.1s ease-in-out;
 
-    &:hover {
+    &:not(:disabled)hover {
       background-color: ${(props) => props.theme['green-700']};
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 `
@@ -69,7 +74,7 @@ export const TransactionType = styled(RadioGroup.Root)`
   gap: 1rem;
 `
 interface TransactionTypeButtonProps {
-  colorVariant: 'income' | 'outcome'
+  colorvariant: 'income' | 'outcome'
 }
 export const TransactionTypeButton = styled(
   RadioGroup.Item,
@@ -89,7 +94,7 @@ export const TransactionTypeButton = styled(
 
   &[data-state='checked'] {
     background-color: ${(props) =>
-      props.colorVariant === 'income'
+      props.colorvariant === 'income'
         ? props.theme['green-700']
         : props.theme['red-700']};
     color: ${(props) => props.theme.white};
@@ -107,7 +112,7 @@ export const TransactionTypeButton = styled(
 
   svg {
     color: ${(props) =>
-      props.colorVariant === 'income'
+      props.colorvariant === 'income'
         ? props.theme['green-300']
         : props.theme['red-300']};
     transition: all 0.1s ease-in-out;
