@@ -15,6 +15,22 @@
       "category": "Alimentação",
       "price": 50,
       "createdAt": "2023-05-28T18:04:32.747Z"
+    },
+    {
+      "description": "Conta de Luz",
+      "type": "outcome",
+      "category": "Contas",
+      "price": 120,
+      "createdAt": "2023-05-28T23:04:25.444Z",
+      "id": 3
+    },
+    {
+      "description": "Site JWMA",
+      "type": "income",
+      "category": "Freelance",
+      "price": 1500,
+      "createdAt": "2023-05-28T23:21:40.832Z",
+      "id": 4
     }
   ]
 }
