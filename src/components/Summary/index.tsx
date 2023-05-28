@@ -7,6 +7,7 @@ import {
   BsArrowDownCircle,
   BsCurrencyDollar,
 } from 'react-icons/bs'
+import { priceFormatter } from '../../utils/formatter'
 
 export const Summary = () => {
   const { transactions } = useContext(TransactionsContext)
@@ -35,7 +36,7 @@ export const Summary = () => {
               <BsArrowUpCircle size={32} color="#00b37e" />
             </header>
             <p>
-              <strong>R$ {summary.income}</strong>
+              <strong>{priceFormatter.format(summary.income)}</strong>
             </p>
           </SummaryCard>
 
@@ -45,7 +46,7 @@ export const Summary = () => {
               <BsArrowDownCircle size={32} color="#f75a68" />
             </header>
             <p>
-              <strong>R$ {summary.outcome}</strong>
+              <strong>{priceFormatter.format(summary.outcome)}</strong>
             </p>
           </SummaryCard>
 
@@ -55,7 +56,7 @@ export const Summary = () => {
               <BsCurrencyDollar size={32} color="#fff" />
             </header>
             <p>
-              <strong>R$ {summary.total}</strong>
+              <strong>{priceFormatter.format(summary.total)}</strong>
             </p>
           </SummaryCard>
         </SummaryContent>
