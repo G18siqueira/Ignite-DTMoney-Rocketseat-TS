@@ -1,3 +1,5 @@
+import { useContext } from 'react'
+import { TransactionsContext } from '../../contexts/TransactionsContext'
 import { Container } from '../../styles/global'
 import { SummaryContent, SummaryContainer, SummaryCard } from './style'
 import {
@@ -7,6 +9,8 @@ import {
 } from 'react-icons/bs'
 
 export const Summary = () => {
+  const { transactions } = useContext(TransactionsContext)
+
   return (
     <SummaryContainer>
       <Container>
