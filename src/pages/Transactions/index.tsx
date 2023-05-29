@@ -11,17 +11,25 @@ import {
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
 import { TransactionsContext } from '../../contexts/TransactionsContext'
 import { dateFormatter, priceFormatter } from '../../utils/formatter'
-import { NewTransactionModal } from '../../components/NewTransactionModal'
+// import { NewTransactionModal } from '../../components/NewTransactionModal'
 
-import * as Dialog from '@radix-ui/react-dialog'
+// import * as Dialog from '@radix-ui/react-dialog'
+
+interface EditTransaction {
+  id: number
+}
 
 interface DeleteTransaction {
   id: number
 }
 
 export const Transactions = () => {
-  const { transactions, deleteTransaction } = useContext(TransactionsContext)
+  const { transactions, editTransaction, deleteTransaction } =
+    useContext(TransactionsContext)
 
+  const handleEditTransaction = (transactionToEdit: EditTransaction) => {
+    editTransaction(transactionToEdit)
+  }
   const handleDeleteTransaction = (transactionToDelete: DeleteTransaction) => {
     deleteTransaction(transactionToDelete)
   }
@@ -50,15 +58,21 @@ export const Transactions = () => {
                       {dateFormatter.format(new Date(transaction.createdAt))}
                     </td>
                     <td>
-                      <Dialog.Root>
-                        <Dialog.Trigger>
+                      <ButtonHighLight
+                        variant="edit"
+                        onClick={() => handleEditTransaction(transaction)}
+                      >
+                        <AiOutlineEdit size={24} />
+                      </ButtonHighLight>
+                      {/* <Dialog.Root>
+                        <Dialog.Trigger asChild>
                           <ButtonHighLight variant="edit">
                             <AiOutlineEdit size={24} />
                           </ButtonHighLight>
                         </Dialog.Trigger>
 
                         <NewTransactionModal />
-                      </Dialog.Root>
+                      </Dialog.Root> */}
                     </td>
                     <td>
                       <ButtonHighLight

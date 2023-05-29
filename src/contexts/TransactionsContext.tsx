@@ -18,11 +18,7 @@ interface CreateTransactionInput {
 }
 
 interface EditTransactionInput {
-  id?: number
-  description: string
-  category: string
-  price: number
-  type: 'income' | 'outcome'
+  id: number
 }
 
 interface DeleteTransactionInput {
@@ -72,14 +68,10 @@ export const TransactionsProvider = ({
   }
 
   const editTransaction = async (transactionToEdit: EditTransactionInput) => {
-    const { id, description, type, category, price } = transactionToEdit
+    const { id } = transactionToEdit
 
     const response = await api.put(`/transactions/${id}`, {
       id,
-      description,
-      type,
-      category,
-      price,
     })
     console.log(
       transactions.map((item) => (item.id === id ? response.data : item)),
