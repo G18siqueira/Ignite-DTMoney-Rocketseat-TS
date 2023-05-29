@@ -18,17 +18,46 @@ export const TransactionsTable = styled.table`
       border-bottom-left-radius: 6px;
     }
     &:last-child {
+      width: 5%;
       border-top-right-radius: 6px;
       border-bottom-right-radius: 6px;
+      padding: 1.25rem 0;
     }
+  }
+
+  button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    cursor: pointer;
   }
 `
 interface PriceHighLightProps {
-  colorVariant?: 'income' | 'outcome'
+  variant?: 'income' | 'outcome'
 }
 export const PriceHighLight = styled.span<PriceHighLightProps>`
   color: ${(props) =>
-    props.colorVariant === 'income'
+    props.variant === 'income'
       ? props.theme['green-300']
       : props.theme['red-300']};
+`
+
+interface ButtonHighLightProps {
+  variant?: 'edit' | 'delete'
+}
+export const ButtonHighLight = styled.button<ButtonHighLightProps>`
+  color: ${(props) =>
+    props.variant === 'edit'
+      ? props.theme['green-700']
+      : props.theme['red-700']};
+  transition: all 0.1s ease-in-out;
+
+  &:hover,
+  &:focus {
+    color: ${(props) =>
+      props.variant === 'edit'
+        ? props.theme['green-300']
+        : props.theme['red-300']};
+  }
 `

@@ -3,15 +3,28 @@ import { Summary } from '../../components/Summary'
 import { Container } from '../../styles/global'
 import { Search } from './components/Search'
 import {
+  ButtonHighLight,
   PriceHighLight,
   TransactionsContainer,
   TransactionsTable,
 } from './styles'
+import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
 import { TransactionsContext } from '../../contexts/TransactionsContext'
 import { dateFormatter, priceFormatter } from '../../utils/formatter'
+import { NewTransactionModal } from '../../components/NewTransactionModal'
+
+import * as Dialog from '@radix-ui/react-dialog'
+
+interface DeleteTransaction {
+  id: number
+}
 
 export const Transactions = () => {
-  const { transactions } = useContext(TransactionsContext)
+  const { transactions, deleteTransaction } = useContext(TransactionsContext)
+
+  const handleDeleteTransaction = (transactionToDelete: DeleteTransaction) => {
+    deleteTransaction(transactionToDelete)
+  }
 
   return (
     <main>
@@ -25,9 +38,9 @@ export const Transactions = () => {
               {transactions.map((transaction) => {
                 return (
                   <tr key={transaction.id}>
-                    <td width="50%">{transaction.description}</td>
+                    <td>{transaction.description}</td>
                     <td>
-                      <PriceHighLight colorVariant={transaction.type}>
+                      <PriceHighLight variant={transaction.type}>
                         {transaction.type === 'outcome' && '- '}
                         {priceFormatter.format(transaction.price)}
                       </PriceHighLight>
@@ -35,6 +48,25 @@ export const Transactions = () => {
                     <td>{transaction.category}</td>
                     <td>
                       {dateFormatter.format(new Date(transaction.createdAt))}
+                    </td>
+                    <td>
+                      <Dialog.Root>
+                        <Dialog.Trigger>
+                          <ButtonHighLight variant="edit">
+                            <AiOutlineEdit size={24} />
+                          </ButtonHighLight>
+                        </Dialog.Trigger>
+
+                        <NewTransactionModal />
+                      </Dialog.Root>
+                    </td>
+                    <td>
+                      <ButtonHighLight
+                        variant="delete"
+                        onClick={() => handleDeleteTransaction(transaction)}
+                      >
+                        <AiOutlineDelete size={24} />
+                      </ButtonHighLight>
                     </td>
                   </tr>
                 )

@@ -1,35 +1,35 @@
 {
   "transactions": [
     {
-      "id": 1,
-      "description": "Desenvolvimento de site",
+      "description": "Salário",
       "type": "income",
-      "category": "Venda",
-      "price": 17000,
-      "createdAt": "2023-05-28T18:02:18.747Z"
+      "category": "salario",
+      "price": 7000,
+      "createdAt": "2023-05-29T03:33:06.824Z",
+      "id": 1
     },
     {
-      "id": 2,
-      "description": "Burger King",
+      "description": "Condomínio",
       "type": "outcome",
-      "category": "Alimentação",
-      "price": 50,
-      "createdAt": "2023-05-28T18:04:32.747Z"
+      "category": "contas",
+      "price": 600,
+      "createdAt": "2023-05-29T03:33:26.206Z",
+      "id": 2
     },
     {
-      "description": "Conta de Luz",
+      "description": "Luz",
       "type": "outcome",
-      "category": "Contas",
+      "category": "contas",
       "price": 120,
-      "createdAt": "2023-05-28T23:04:25.444Z",
+      "createdAt": "2023-05-29T03:33:35.701Z",
       "id": 3
     },
     {
-      "description": "Site JWMA",
-      "type": "income",
-      "category": "Freelance",
-      "price": 1500,
-      "createdAt": "2023-05-28T23:21:40.832Z",
+      "description": "Internet",
+      "type": "outcome",
+      "category": "contas",
+      "price": 130,
+      "createdAt": "2023-05-29T03:43:09.868Z",
       "id": 4
     }
   ]
