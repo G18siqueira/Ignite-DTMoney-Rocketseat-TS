@@ -68,13 +68,11 @@ export const TransactionsProvider = ({
   }
 
   const editTransaction = async (transactionToEdit: EditTransactionInput) => {
-    const { id } = transactionToEdit
-
-    const response = await api.put(`/transactions/${id}`, {
-      id,
-    })
+    const response = await api.put(`/transactions/${transactionToEdit.id}`)
     console.log(
-      transactions.map((item) => (item.id === id ? response.data : item)),
+      transactions.map((item) =>
+        item.id === transactionToEdit.id ? response.data : item,
+      ),
     )
     // setTransactions((state) =>
     //   state.map((item) => (item.id === id ? response.data : item)),
