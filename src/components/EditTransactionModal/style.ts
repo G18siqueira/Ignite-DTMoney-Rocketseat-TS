@@ -10,14 +10,23 @@ export const Overlay = styled(Dialog.Overlay)`
   position: fixed;
 `
 export const Content = styled(Dialog.Content)`
-  min-width: 32rem;
+  min-width: 100%;
   background-color: ${(props) => props.theme['gray-800']};
-  padding: 2.5rem 3rem;
-  border-radius: 6px;
+  padding: 2.5rem 1.5rem;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 0;
+  bottom: 0;
+
+  @media screen and (min-width: 768px) {
+    min-width: 32rem;
+    padding: 2.5rem 3rem;
+    border-radius: 6px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
 `
 export const CloseButton = styled(Dialog.Close)`
   background-color: transparent;

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useContextSelector } from 'use-context-selector'
 import { Controller, useForm } from 'react-hook-form'
 import { AiOutlineClose } from 'react-icons/ai'
@@ -23,6 +23,7 @@ import * as z from 'zod'
 
 interface EditTransactionModalProps {
   selectedTransaction: TransactionsType | null
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const editTransactionFormSchema = z.object({
@@ -38,6 +39,7 @@ type editTransactionFormInputs = z.infer<typeof editTransactionFormSchema>
 
 export const EditTransactionModal = ({
   selectedTransaction,
+  setIsOpen,
 }: EditTransactionModalProps) => {
   const editTransaction = useContextSelector(TransactionsContext, (context) => {
     return context.editTransaction
@@ -68,6 +70,7 @@ export const EditTransactionModal = ({
     transactionToEdit: editTransactionFormInputs,
   ) => {
     editTransaction(transactionToEdit)
+    setIsOpen(false)
   }
 
   return (

@@ -9,8 +9,11 @@ import {
   PriceHighLight,
   TransactionsContainer,
   TransactionsTable,
+  TransactionsTableGroupButtons,
+  TransactionsTableGroupInfos,
 } from './styles'
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
+import { BsCalendar4, BsTicket } from 'react-icons/bs'
 import {
   TransactionsContext,
   TransactionsType,
@@ -25,6 +28,8 @@ interface DeleteTransaction {
 }
 
 export const Transactions = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+
   const transactions = useContextSelector(TransactionsContext, (context) => {
     return context.transactions
   })
@@ -65,33 +70,45 @@ export const Transactions = () => {
                         {priceFormatter.format(transaction.price)}
                       </PriceHighLight>
                     </td>
-                    <td>{transaction.category}</td>
                     <td>
-                      {dateFormatter.format(new Date(transaction.createdAt))}
+                      <TransactionsTableGroupInfos>
+                        <span>
+                          <BsTicket />
+                          {transaction.category}
+                        </span>
+                        <span>
+                          <BsCalendar4 />
+                          {dateFormatter.format(
+                            new Date(transaction.createdAt),
+                          )}
+                        </span>
+                      </TransactionsTableGroupInfos>
                     </td>
                     <td>
-                      <Dialog.Root>
-                        <Dialog.Trigger asChild>
-                          <ButtonHighLight
-                            variant="edit"
-                            onClick={() => handleEditTransaction(transaction)}
-                          >
-                            <AiOutlineEdit size={24} />
-                          </ButtonHighLight>
-                        </Dialog.Trigger>
+                      <TransactionsTableGroupButtons>
+                        <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
+                          <Dialog.Trigger asChild>
+                            <ButtonHighLight
+                              variant="edit"
+                              onClick={() => handleEditTransaction(transaction)}
+                            >
+                              <AiOutlineEdit size={24} />
+                            </ButtonHighLight>
+                          </Dialog.Trigger>
 
-                        <EditTransactionModal
-                          selectedTransaction={selectedTransaction}
-                        />
-                      </Dialog.Root>
-                    </td>
-                    <td>
-                      <ButtonHighLight
-                        variant="delete"
-                        onClick={() => handleDeleteTransaction(transaction)}
-                      >
-                        <AiOutlineDelete size={24} />
-                      </ButtonHighLight>
+                          <EditTransactionModal
+                            selectedTransaction={selectedTransaction}
+                            setIsOpen={setIsOpen}
+                          />
+                        </Dialog.Root>
+
+                        <ButtonHighLight
+                          variant="delete"
+                          onClick={() => handleDeleteTransaction(transaction)}
+                        >
+                          <AiOutlineDelete size={24} />
+                        </ButtonHighLight>
+                      </TransactionsTableGroupButtons>
                     </td>
                   </tr>
                 )

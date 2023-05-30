@@ -1,5 +1,6 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import * as z from 'zod'
+import React from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 import {
   CloseButton,
@@ -25,7 +26,13 @@ const newTransactionFormSchema = z.object({
 
 type newTransactionFormInputs = z.infer<typeof newTransactionFormSchema>
 
-export const NewTransactionModal = () => {
+interface NewTransactionModalProps {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const NewTransactionModal = ({
+  setIsOpen,
+}: NewTransactionModalProps) => {
   const createTransaction = useContextSelector(
     TransactionsContext,
     (context) => {
@@ -49,6 +56,7 @@ export const NewTransactionModal = () => {
   const handleCreateNewTransaction = async (data: newTransactionFormInputs) => {
     const { description, type, category, price } = data
     await createTransaction({ description, type, category, price })
+    setIsOpen(false)
     reset()
   }
   return (

@@ -5,11 +5,11 @@ import {
   BsArrowDownCircle,
   BsCurrencyDollar,
 } from 'react-icons/bs'
-import { priceFormatter } from '../../utils/formatter'
+import { dateFormatter2, priceFormatter } from '../../utils/formatter'
 import { useSummary } from '../../hooks/useSummary'
 
 export const Summary = () => {
-  const summary = useSummary()
+  const { summary } = useSummary()
 
   return (
     <SummaryContainer>
@@ -23,6 +23,13 @@ export const Summary = () => {
             <p>
               <strong>{priceFormatter.format(summary.income)}</strong>
             </p>
+            <span>
+              {summary.lastIncomeDate
+                ? `Última entrada em ${dateFormatter2.format(
+                    new Date(summary.lastIncomeDate),
+                  )}`
+                : ''}
+            </span>
           </SummaryCard>
 
           <SummaryCard>
@@ -33,6 +40,13 @@ export const Summary = () => {
             <p>
               <strong>{priceFormatter.format(summary.outcome)}</strong>
             </p>
+            <span>
+              {summary.lastOutcomeDate
+                ? `Última entrada em ${dateFormatter2.format(
+                    new Date(summary.lastOutcomeDate),
+                  )}`
+                : ''}
+            </span>
           </SummaryCard>
 
           <SummaryCard bgVariant="green">
