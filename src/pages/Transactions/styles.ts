@@ -1,33 +1,71 @@
 import styled from 'styled-components'
 
+/**************************************************/
+/**************************************************/
+// Section
 export const TransactionsContainer = styled.section`
   position: relative;
 `
+/**************************************************/
+/**************************************************/
+// Table
 export const TransactionsTable = styled.table`
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 0.5rem;
 
-  td {
-    padding: 1.25rem 2rem;
+  tr {
+    display: flex;
+    flex-direction: column;
     background-color: ${(props) => props.theme['gray-700']};
-    text-align: right;
+    padding: 1.25rem;
+    position: relative;
+
+    &:not(:last-child) {
+      margin: 0 0 0.75rem;
+    }
+
+    @media screen and (min-width: 768px) {
+      display: table-row;
+      background-color: none;
+      padding: 0;
+    }
+  }
+
+  td {
+    background-color: ${(props) => props.theme['gray-700']};
+    padding: 10px 0;
+
+    @media screen and (min-width: 768px) {
+      padding: 1.25rem 2rem;
+      text-align: right;
+    }
 
     &:first-child {
-      width: 50%;
       border-top-left-radius: 6px;
       border-bottom-left-radius: 6px;
       text-align: left;
+
+      @media screen and (min-width: 768px) {
+        width: 50%;
+      }
     }
     &:nth-child(2) {
-      min-width: 10.625rem;
+      @media screen and (min-width: 768px) {
+        min-width: 10.625rem;
+      }
     }
     &:last-child {
-      width: 5%;
-      border-top-right-radius: 6px;
-      border-bottom-right-radius: 6px;
-      padding: 1.25rem 2rem 1.25rem 0.5rem;
-      text-align: left;
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+
+      @media screen and (min-width: 768px) {
+        position: initial;
+        inset: initial;
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+      }
     }
   }
 
@@ -39,6 +77,50 @@ export const TransactionsTable = styled.table`
     cursor: pointer;
   }
 `
+/**************************************************/
+/**************************************************/
+// Group
+export const BaseTransactionsTableGroup = styled.div`
+  display: flex;
+  align-items: center;
+`
+export const TransactionsTableGroupInfos = styled(BaseTransactionsTableGroup)`
+  justify-content: space-between;
+
+  @media screen and (min-width: 768px) {
+    justify-content: flex-end;
+  }
+  gap: 4rem;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    color: ${(props) => props.theme['gray-500']};
+
+    @media screen and (min-width: 768px) {
+      color: ${(props) => props.theme['gray-100']};
+    }
+
+    svg {
+      line-height: 0;
+      @media screen and (min-width: 768px) {
+        display: none;
+      }
+    }
+  }
+`
+export const TransactionsTableGroupButtons = styled(BaseTransactionsTableGroup)`
+  justify-content: flex-end;
+  gap: 1.25rem;
+
+  @media screen and (min-width: 768px) {
+    gap: 2rem;
+  }
+`
+/**************************************************/
+/**************************************************/
+// Prince
 interface PriceHighLightProps {
   variant?: 'income' | 'outcome'
 }
@@ -48,7 +130,9 @@ export const PriceHighLight = styled.span<PriceHighLightProps>`
       ? props.theme['green-300']
       : props.theme['red-300']};
 `
-
+/**************************************************/
+/**************************************************/
+// Button
 interface ButtonHighLightProps {
   variant?: 'edit' | 'delete'
 }

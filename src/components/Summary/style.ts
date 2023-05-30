@@ -6,9 +6,17 @@ export const SummaryContainer = styled.section`
 `
 export const SummaryContent = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin-top: -5rem;
+  grid-template-columns: repeat(3, 20.5rem);
+  gap: 1rem;
+  margin: -5rem -1.5rem 0;
+  overflow-x: auto;
+
+  @media screen and (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    overflow-x: initial;
+    margin: -5rem 0 0;
+  }
 `
 
 interface SummaryCardProps {
@@ -22,6 +30,12 @@ export const SummaryCard = styled.div<SummaryCardProps>`
   border-radius: 6px;
   padding: 2rem;
 
+  &:first-of-type {
+    margin: 0 0 0 1.5rem;
+  }
+  &:last-of-type {
+    margin: 0 1.5rem 0 0;
+  }
   header {
     display: flex;
     align-items: center;
@@ -32,5 +46,10 @@ export const SummaryCard = styled.div<SummaryCardProps>`
 
   p {
     font-size: 2rem;
+  }
+
+  span {
+    font-size: 0.875rem;
+    color: ${(props) => props.theme['gray-500']};
   }
 `
