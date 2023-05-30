@@ -1,6 +1,8 @@
-import * as Dialog from '@radix-ui/react-dialog'
-import * as z from 'zod'
+import { useEffect } from 'react'
+import { useContextSelector } from 'use-context-selector'
+import { Controller, useForm } from 'react-hook-form'
 import { AiOutlineClose } from 'react-icons/ai'
+import { zodResolver } from '@hookform/resolvers/zod'
 import {
   CloseButton,
   Content,
@@ -10,59 +12,76 @@ import {
   TransactionTypeButton,
 } from './style'
 import { BsArrowUpCircle, BsArrowDownCircle } from 'react-icons/bs'
-import { zodResolver } from '@hookform/resolvers/zod'
 
-import { Controller, useForm } from 'react-hook-form'
-import { TransactionsContext } from '../../contexts/TransactionsContext'
-import { useContextSelector } from 'use-context-selector'
+import {
+  TransactionsContext,
+  TransactionsType,
+} from '../../contexts/TransactionsContext'
 
-const newTransactionFormSchema = z.object({
+import * as Dialog from '@radix-ui/react-dialog'
+import * as z from 'zod'
+
+interface EditTransactionModalProps {
+  selectedTransaction: TransactionsType | null
+}
+
+const editTransactionFormSchema = z.object({
+  id: z.z.number(),
   description: z.string(),
   category: z.string(),
   price: z.number(),
   type: z.enum(['income', 'outcome']),
+  createdAt: z.string(),
 })
 
-type newTransactionFormInputs = z.infer<typeof newTransactionFormSchema>
+type editTransactionFormInputs = z.infer<typeof editTransactionFormSchema>
 
-export const NewTransactionModal = () => {
-  const createTransaction = useContextSelector(
-    TransactionsContext,
-    (context) => {
-      return context.createTransaction
-    },
-  )
+export const EditTransactionModal = ({
+  selectedTransaction,
+}: EditTransactionModalProps) => {
+  const editTransaction = useContextSelector(TransactionsContext, (context) => {
+    return context.editTransaction
+  })
 
   const {
     register,
     control,
     handleSubmit,
-    reset,
+    setValue,
     formState: { isSubmitting },
-  } = useForm<newTransactionFormInputs>({
-    resolver: zodResolver(newTransactionFormSchema),
-    defaultValues: {
-      type: 'income',
-    },
+  } = useForm<editTransactionFormInputs>({
+    resolver: zodResolver(editTransactionFormSchema),
   })
 
-  const handleCreateNewTransaction = async (data: newTransactionFormInputs) => {
-    const { description, type, category, price } = data
-    await createTransaction({ description, type, category, price })
-    reset()
+  useEffect(() => {
+    if (selectedTransaction) {
+      setValue('id', selectedTransaction.id)
+      setValue('description', selectedTransaction.description)
+      setValue('category', selectedTransaction.category)
+      setValue('price', selectedTransaction.price)
+      setValue('type', selectedTransaction.type)
+      setValue('createdAt', selectedTransaction.createdAt)
+    }
+  }, [selectedTransaction, setValue])
+
+  const handleEditTransaction = async (
+    transactionToEdit: editTransactionFormInputs,
+  ) => {
+    editTransaction(transactionToEdit)
   }
+
   return (
     <Dialog.Portal>
       <Overlay />
 
       <Content>
-        <Dialog.Title>Nova Transação</Dialog.Title>
+        <Dialog.Title>Editar Transação</Dialog.Title>
 
         <CloseButton>
           <AiOutlineClose size={24} />
         </CloseButton>
 
-        <Form onSubmit={handleSubmit(handleCreateNewTransaction)}>
+        <Form onSubmit={handleSubmit(handleEditTransaction)}>
           <input
             type="text"
             placeholder="Descrição"
@@ -106,7 +125,7 @@ export const NewTransactionModal = () => {
           />
 
           <button type="submit" disabled={isSubmitting}>
-            Cadastrar
+            Editar
           </button>
         </Form>
       </Content>

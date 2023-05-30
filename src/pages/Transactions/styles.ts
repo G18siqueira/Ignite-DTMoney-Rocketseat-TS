@@ -11,17 +11,23 @@ export const TransactionsTable = styled.table`
   td {
     padding: 1.25rem 2rem;
     background-color: ${(props) => props.theme['gray-700']};
+    text-align: right;
 
     &:first-child {
       width: 50%;
       border-top-left-radius: 6px;
       border-bottom-left-radius: 6px;
+      text-align: left;
+    }
+    &:nth-child(2) {
+      min-width: 10.625rem;
     }
     &:last-child {
       width: 5%;
       border-top-right-radius: 6px;
       border-bottom-right-radius: 6px;
-      padding: 1.25rem 0;
+      padding: 1.25rem 2rem 1.25rem 0.5rem;
+      text-align: left;
     }
   }
 

@@ -3,32 +3,34 @@
     {
       "description": "Salário",
       "type": "income",
-      "category": "salario",
+      "category": "pagamento",
       "price": 7000,
-      "createdAt": "2023-05-29T03:33:06.824Z",
+      "createdAt": "2023-05-29T19:31:48.083Z",
       "id": 1
     },
     {
-      "description": "Condomínio",
+      "description": "Conta de Luz",
       "type": "outcome",
       "category": "contas",
-      "price": 600,
-      "createdAt": "2023-05-29T03:33:26.206Z",
+      "price": 130.55,
+      "createdAt": "2023-05-29T19:47:44.765Z",
       "id": 2
     },
     {
-      "description": "Luz",
+      "description": "Conta de Telefone",
       "type": "outcome",
       "category": "contas",
-      "price": 120,
-      "createdAt": "2023-05-29T03:33:35.701Z",
+      "price": 153.98,
+      "createdAt": "2023-05-29T19:48:17.627Z",
       "id": 3
     },
     {
+      "description": "Cartão Itau",
+      "type": "outcome",
+      "category": "fatura",
+      "price": 1357.99,
+      "createdAt": "2023-05-30T00:45:16.232Z",
       "id": 4
-    },
-    {
-      "id": 5
     }
   ]
 }

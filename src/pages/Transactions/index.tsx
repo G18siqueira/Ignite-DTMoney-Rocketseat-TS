@@ -1,4 +1,6 @@
-import { useContext } from 'react'
+import * as Dialog from '@radix-ui/react-dialog'
+import { useState } from 'react'
+import { useContextSelector } from 'use-context-selector'
 import { Summary } from '../../components/Summary'
 import { Container } from '../../styles/global'
 import { Search } from './components/Search'
@@ -9,27 +11,37 @@ import {
   TransactionsTable,
 } from './styles'
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
-import { TransactionsContext } from '../../contexts/TransactionsContext'
+import {
+  TransactionsContext,
+  TransactionsType,
+} from '../../contexts/TransactionsContext'
 import { dateFormatter, priceFormatter } from '../../utils/formatter'
-// import { NewTransactionModal } from '../../components/NewTransactionModal'
+import { EditTransactionModal } from '../../components/EditTransactionModal'
 
-// import * as Dialog from '@radix-ui/react-dialog'
-
-interface EditTransaction {
-  id: number
-}
+interface TransactionsTypes extends TransactionsType {}
 
 interface DeleteTransaction {
   id: number
 }
 
 export const Transactions = () => {
-  const { transactions, editTransaction, deleteTransaction } =
-    useContext(TransactionsContext)
+  const transactions = useContextSelector(TransactionsContext, (context) => {
+    return context.transactions
+  })
+  const deleteTransaction = useContextSelector(
+    TransactionsContext,
+    (context) => {
+      return context.deleteTransaction
+    },
+  )
 
-  const handleEditTransaction = (transactionToEdit: EditTransaction) => {
-    editTransaction(transactionToEdit)
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<TransactionsTypes | null>(null)
+
+  const handleEditTransaction = (transaction: TransactionsTypes) => {
+    setSelectedTransaction(transaction)
   }
+
   const handleDeleteTransaction = (transactionToDelete: DeleteTransaction) => {
     deleteTransaction(transactionToDelete)
   }
@@ -58,21 +70,20 @@ export const Transactions = () => {
                       {dateFormatter.format(new Date(transaction.createdAt))}
                     </td>
                     <td>
-                      <ButtonHighLight
-                        variant="edit"
-                        onClick={() => handleEditTransaction(transaction)}
-                      >
-                        <AiOutlineEdit size={24} />
-                      </ButtonHighLight>
-                      {/* <Dialog.Root>
+                      <Dialog.Root>
                         <Dialog.Trigger asChild>
-                          <ButtonHighLight variant="edit">
+                          <ButtonHighLight
+                            variant="edit"
+                            onClick={() => handleEditTransaction(transaction)}
+                          >
                             <AiOutlineEdit size={24} />
                           </ButtonHighLight>
                         </Dialog.Trigger>
 
-                        <NewTransactionModal />
-                      </Dialog.Root> */}
+                        <EditTransactionModal
+                          selectedTransaction={selectedTransaction}
+                        />
+                      </Dialog.Root>
                     </td>
                     <td>
                       <ButtonHighLight

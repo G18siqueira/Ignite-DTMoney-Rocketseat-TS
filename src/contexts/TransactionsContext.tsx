@@ -1,7 +1,8 @@
-import { ReactNode, createContext, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
+import { createContext } from 'use-context-selector'
 import { api } from '../lib/axios'
 
-interface TransactionsType {
+export interface TransactionsType {
   id: number
   description: string
   type: 'income' | 'outcome'
@@ -18,7 +19,11 @@ interface CreateTransactionInput {
 }
 
 interface EditTransactionInput {
-  id: number
+  id?: number
+  description: string
+  category: string
+  price: number
+  type: 'income' | 'outcome'
 }
 
 interface DeleteTransactionInput {
@@ -68,15 +73,19 @@ export const TransactionsProvider = ({
   }
 
   const editTransaction = async (transactionToEdit: EditTransactionInput) => {
-    const response = await api.put(`/transactions/${transactionToEdit.id}`)
-    console.log(
-      transactions.map((item) =>
-        item.id === transactionToEdit.id ? response.data : item,
-      ),
+    const { id, description, type, category, price } = transactionToEdit
+
+    const response = await api.put(`/transactions/${id}`, {
+      description,
+      type,
+      category,
+      price,
+      createdAt: new Date(),
+    })
+
+    setTransactions((state) =>
+      state.map((item) => (item.id === id ? response.data : item)),
     )
-    // setTransactions((state) =>
-    //   state.map((item) => (item.id === id ? response.data : item)),
-    // )
   }
 
   const deleteTransaction = async (
