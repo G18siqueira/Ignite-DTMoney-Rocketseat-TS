@@ -1,28 +1,12 @@
 {
   "transactions": [
     {
-      "description": "Salário",
+      "description": "Salario",
       "type": "income",
-      "category": "pagamento",
+      "category": "pagamentos",
       "price": 7000,
-      "createdAt": "2023-05-30T19:14:56.665Z",
-      "id": 1
-    },
-    {
-      "description": "Conta de Luz",
-      "type": "outcome",
-      "category": "contas",
-      "price": 130,
-      "createdAt": "2023-05-30T19:51:53.743Z",
-      "id": 2
-    },
-    {
-      "description": "Condomínio",
-      "type": "outcome",
-      "category": "contas",
-      "price": 600,
-      "createdAt": "2023-05-30T19:56:30.776Z",
-      "id": 3
+      "createdAt": "2023-06-01T02:12:57.467Z",
+      "id": "7dc3f607-b218-4624-b4ef-c030c43ed0d9"
     }
   ]
 }

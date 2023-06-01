@@ -6,48 +6,39 @@ export const useSummary = () => {
   const transactions = useContextSelector(TransactionsContext, (context) => {
     return context.transactions
   })
-
   const summary = useMemo(() => {
-    const incomeSummary = transactions.reduce(
-      (accumulator, transaction) => {
-        const transactionType = transaction.type === 'income'
-        const transactionLastDate =
-          transaction.createdAt > accumulator.lastIncomeDate
+    let lastSavedDateIncome = ''
+    let lastSavedDateOutcome = ''
 
-        if (transactionType && transactionLastDate) {
+    return transactions.reduce(
+      (accumulator, transaction) => {
+        if (transaction.type === 'income') {
           accumulator.income += transaction.price
           accumulator.total += transaction.price
-          accumulator.lastIncomeDate = transaction.createdAt
-        }
-        return accumulator
-      },
-      { income: 0, outcome: 0, total: 0, lastIncomeDate: '' },
-    )
-
-    const outcomeSummary = transactions.reduce(
-      (accumulator, transaction) => {
-        const transactionType = transaction.type === 'outcome'
-        const transactionLastDate =
-          transaction.createdAt > accumulator.lastOutcomeDate
-
-        if (transactionType && transactionLastDate) {
+          if (transaction.createdAt > lastSavedDateIncome) {
+            lastSavedDateIncome = transaction.createdAt
+          }
+        } else if (transaction.type === 'outcome') {
           accumulator.outcome += transaction.price
           accumulator.total -= transaction.price
-          accumulator.lastOutcomeDate = transaction.createdAt
+          if (transaction.createdAt > lastSavedDateOutcome) {
+            lastSavedDateOutcome = transaction.createdAt
+          }
         }
+
+        accumulator.lastDateIncome = lastSavedDateIncome
+        accumulator.lastDateOutcome = lastSavedDateOutcome
+
         return accumulator
       },
-      { income: 0, outcome: 0, total: 0, lastOutcomeDate: '' },
+      {
+        income: 0,
+        outcome: 0,
+        total: 0,
+        lastDateIncome: '',
+        lastDateOutcome: '',
+      },
     )
-
-    // Combina os resultados dos dois resumos
-    return {
-      income: incomeSummary.income,
-      outcome: outcomeSummary.outcome,
-      total: incomeSummary.total + outcomeSummary.total,
-      lastIncomeDate: incomeSummary.lastIncomeDate,
-      lastOutcomeDate: outcomeSummary.lastOutcomeDate,
-    }
   }, [transactions])
 
   return { summary }

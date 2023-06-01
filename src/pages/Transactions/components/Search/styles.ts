@@ -38,7 +38,7 @@ export const SearchFormContent = styled.form`
       padding: 0 2.0625rem;
     }
 
-    &:not(:disabled)hover {
+    &:not(:disabled):hover {
       background-color: ${(props) => props.theme['green-500']};
       border-color: ${(props) => props.theme['green-500']};
       color: ${(props) => props.theme.white};

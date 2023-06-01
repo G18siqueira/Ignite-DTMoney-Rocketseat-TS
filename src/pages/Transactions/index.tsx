@@ -1,34 +1,45 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { useState } from 'react'
 import { useContextSelector } from 'use-context-selector'
+import { dateFormatter, priceFormatter } from '../../utils/formatter'
+import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
+import { BsCalendar4, BsTicket } from 'react-icons/bs'
+import { GrPrevious, GrNext } from 'react-icons/gr'
+
 import { Summary } from '../../components/Summary'
-import { Container } from '../../styles/global'
 import { Search } from './components/Search'
+import { EditTransactionModal } from '../../components/EditTransactionModal'
+import {
+  TransactionsContext,
+  TransactionsType,
+} from '../../contexts/TransactionsContext'
+
+import { Container } from '../../styles/global'
 import {
   ButtonHighLight,
+  PaginationButtonCurrent,
+  PaginationButtonPage,
+  PaginationButtonPageContainer,
+  PaginationContainer,
   PriceHighLight,
   TransactionsContainer,
   TransactionsTable,
   TransactionsTableGroupButtons,
   TransactionsTableGroupInfos,
 } from './styles'
-import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
-import { BsCalendar4, BsTicket } from 'react-icons/bs'
-import {
-  TransactionsContext,
-  TransactionsType,
-} from '../../contexts/TransactionsContext'
-import { dateFormatter, priceFormatter } from '../../utils/formatter'
-import { EditTransactionModal } from '../../components/EditTransactionModal'
+import { Total } from './components/Total'
 
 interface TransactionsTypes extends TransactionsType {}
 
 interface DeleteTransaction {
-  id: number
+  id: string
 }
 
 export const Transactions = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<TransactionsTypes | null>(null)
+  const [currentPage, setCurrentPage] = useState<number>(1)
 
   const transactions = useContextSelector(TransactionsContext, (context) => {
     return context.transactions
@@ -40,8 +51,19 @@ export const Transactions = () => {
     },
   )
 
-  const [selectedTransaction, setSelectedTransaction] =
-    useState<TransactionsTypes | null>(null)
+  const itemsPerPage = 5
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentTransactions = transactions.slice(
+    indexOfFirstItem,
+    indexOfLastItem,
+  )
+  const totalItems = transactions.length
+  const totalPages = Math.ceil(totalItems / itemsPerPage)
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber)
+  }
 
   const handleEditTransaction = (transaction: TransactionsTypes) => {
     setSelectedTransaction(transaction)
@@ -54,16 +76,22 @@ export const Transactions = () => {
   return (
     <main>
       <Summary />
+
+      {totalPages ? <Total /> : ''}
+
       <Search />
 
       <TransactionsContainer>
         <Container>
           <TransactionsTable>
             <tbody>
-              {transactions.map((transaction) => {
+              {currentTransactions.map((transaction) => {
                 return (
                   <tr key={transaction.id}>
-                    <td>{transaction.description}</td>
+                    <td>
+                      {transaction.description.charAt(0).toLocaleUpperCase()}
+                      {transaction.description.slice(1).toLocaleLowerCase()}
+                    </td>
                     <td>
                       <PriceHighLight variant={transaction.type}>
                         {transaction.type === 'outcome' && '- '}
@@ -74,7 +102,7 @@ export const Transactions = () => {
                       <TransactionsTableGroupInfos>
                         <span>
                           <BsTicket />
-                          {transaction.category}
+                          {transaction.category.toLocaleLowerCase()}
                         </span>
                         <span>
                           <BsCalendar4 />
@@ -96,10 +124,12 @@ export const Transactions = () => {
                             </ButtonHighLight>
                           </Dialog.Trigger>
 
-                          <EditTransactionModal
-                            selectedTransaction={selectedTransaction}
-                            setIsOpen={setIsOpen}
-                          />
+                          {selectedTransaction === transaction && (
+                            <EditTransactionModal
+                              selectedTransaction={selectedTransaction}
+                              setIsOpen={setIsOpen}
+                            />
+                          )}
                         </Dialog.Root>
 
                         <ButtonHighLight
@@ -115,6 +145,45 @@ export const Transactions = () => {
               })}
             </tbody>
           </TransactionsTable>
+
+          {totalPages ? (
+            <PaginationContainer>
+              <PaginationButtonCurrent
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                <GrPrevious size={16} />
+              </PaginationButtonCurrent>
+
+              <PaginationButtonPageContainer>
+                {Array.from(
+                  { length: totalPages },
+                  (_, index) => index + 1,
+                ).map((page) => {
+                  return (
+                    <PaginationButtonPage
+                      key={page}
+                      onClick={() => handlePageChange(page)}
+                      disabled={currentPage === page}
+                    >
+                      {page}
+                    </PaginationButtonPage>
+                  )
+                })}
+              </PaginationButtonPageContainer>
+
+              <PaginationButtonCurrent
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                <GrNext size={16} />
+              </PaginationButtonCurrent>
+            </PaginationContainer>
+          ) : (
+            <PaginationContainer>
+              <h1>Não existe transações no momento</h1>
+            </PaginationContainer>
+          )}
         </Container>
       </TransactionsContainer>
     </main>

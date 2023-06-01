@@ -21,13 +21,8 @@ import {
 import * as Dialog from '@radix-ui/react-dialog'
 import * as z from 'zod'
 
-interface EditTransactionModalProps {
-  selectedTransaction: TransactionsType | null
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
-}
-
 const editTransactionFormSchema = z.object({
-  id: z.z.number(),
+  id: z.string(),
   description: z.string(),
   category: z.string(),
   price: z.number(),
@@ -36,6 +31,11 @@ const editTransactionFormSchema = z.object({
 })
 
 type editTransactionFormInputs = z.infer<typeof editTransactionFormSchema>
+
+interface EditTransactionModalProps {
+  selectedTransaction: TransactionsType | null
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
 
 export const EditTransactionModal = ({
   selectedTransaction,
@@ -63,13 +63,12 @@ export const EditTransactionModal = ({
       setValue('price', selectedTransaction.price)
       setValue('type', selectedTransaction.type)
       setValue('createdAt', selectedTransaction.createdAt)
+      console.log(Number(selectedTransaction.id))
     }
   }, [selectedTransaction, setValue])
 
-  const handleEditTransaction = async (
-    transactionToEdit: editTransactionFormInputs,
-  ) => {
-    editTransaction(transactionToEdit)
+  const handleEditTransaction = async (data: editTransactionFormInputs) => {
+    await editTransaction(data)
     setIsOpen(false)
   }
 

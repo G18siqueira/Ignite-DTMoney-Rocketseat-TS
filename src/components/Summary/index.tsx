@@ -24,9 +24,9 @@ export const Summary = () => {
               <strong>{priceFormatter.format(summary.income)}</strong>
             </p>
             <span>
-              {summary.lastIncomeDate
+              {summary.lastDateIncome
                 ? `Última entrada em ${dateFormatter2.format(
-                    new Date(summary.lastIncomeDate),
+                    new Date(summary.lastDateIncome),
                   )}`
                 : ''}
             </span>
@@ -41,9 +41,9 @@ export const Summary = () => {
               <strong>{priceFormatter.format(summary.outcome)}</strong>
             </p>
             <span>
-              {summary.lastOutcomeDate
-                ? `Última entrada em ${dateFormatter2.format(
-                    new Date(summary.lastOutcomeDate),
+              {summary.lastDateOutcome
+                ? `Última saída em ${dateFormatter2.format(
+                    new Date(summary.lastDateOutcome),
                   )}`
                 : ''}
             </span>

@@ -56,9 +56,11 @@ export const NewTransactionModal = ({
   const handleCreateNewTransaction = async (data: newTransactionFormInputs) => {
     const { description, type, category, price } = data
     await createTransaction({ description, type, category, price })
+
     setIsOpen(false)
     reset()
   }
+
   return (
     <Dialog.Portal>
       <Overlay />

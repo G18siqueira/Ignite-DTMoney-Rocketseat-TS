@@ -1,9 +1,10 @@
 import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { createContext } from 'use-context-selector'
 import { api } from '../lib/axios'
+import { v4 as uuidv4 } from 'uuid'
 
 export interface TransactionsType {
-  id: number
+  id: string
   description: string
   type: 'income' | 'outcome'
   category: string
@@ -19,7 +20,7 @@ interface CreateTransactionInput {
 }
 
 interface EditTransactionInput {
-  id?: number
+  id?: string
   description: string
   category: string
   price: number
@@ -27,7 +28,7 @@ interface EditTransactionInput {
 }
 
 interface DeleteTransactionInput {
-  id: number
+  id: string
 }
 
 interface TransactionsContextType {
@@ -64,6 +65,7 @@ export const TransactionsProvider = ({
       const { description, type, category, price } = data
 
       const response = await api.post('transactions', {
+        id: uuidv4(),
         description,
         type,
         category,
@@ -75,31 +77,26 @@ export const TransactionsProvider = ({
     [],
   )
 
-  const editTransaction = useCallback(
-    async (transactionToEdit: EditTransactionInput) => {
-      const { id, description, type, category, price } = transactionToEdit
+  const editTransaction = useCallback(async (data: EditTransactionInput) => {
+    const { id, description, type, category, price } = data
 
-      const response = await api.put(`/transactions/${id}`, {
-        description,
-        type,
-        category,
-        price,
-        createdAt: new Date(),
-      })
+    const response = await api.put(`/transactions/${id}`, {
+      description,
+      type,
+      category,
+      price,
+      createdAt: new Date(),
+    })
 
-      setTransactions((state) =>
-        state.map((item) => (item.id === id ? response.data : item)),
-      )
-    },
-    [],
-  )
+    setTransactions((state) =>
+      state.map((item) => (item.id === id ? response.data : item)),
+    )
+  }, [])
 
   const deleteTransaction = useCallback(
-    async (transactionToDelete: DeleteTransactionInput) => {
-      await api.delete(`/transactions/${transactionToDelete.id}`)
-      setTransactions((state) =>
-        state.filter((item) => item.id !== transactionToDelete.id),
-      )
+    async (data: DeleteTransactionInput) => {
+      await api.delete(`/transactions/${data.id}`)
+      setTransactions((state) => state.filter((item) => item.id !== data.id))
     },
     [],
   )
