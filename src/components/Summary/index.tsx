@@ -1,9 +1,15 @@
 import { Container } from '../../styles/global'
-import { SummaryContent, SummaryContainer, SummaryCard } from './style'
+import {
+  SummaryContent,
+  SummaryContainer,
+  SummaryCard,
+  SummaryWarning,
+} from './style'
 import {
   BsArrowUpCircle,
   BsArrowDownCircle,
   BsCurrencyDollar,
+  BsHandIndex,
 } from 'react-icons/bs'
 import { dateFormatter2, priceFormatter } from '../../utils/formatter'
 import { useSummary } from '../../hooks/useSummary'
@@ -59,6 +65,10 @@ export const Summary = () => {
             </p>
           </SummaryCard>
         </SummaryContent>
+        <SummaryWarning>
+          Arraste para o lado
+          <BsHandIndex />
+        </SummaryWarning>
       </Container>
     </SummaryContainer>
   )

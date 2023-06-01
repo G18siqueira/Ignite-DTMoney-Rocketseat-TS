@@ -11,7 +11,7 @@ export const SummaryContent = styled.div`
   margin: -5rem -1.5rem 0;
   overflow-x: auto;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 1200px) {
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     overflow-x: initial;
@@ -51,5 +51,23 @@ export const SummaryCard = styled.div<SummaryCardProps>`
   span {
     font-size: 0.875rem;
     color: ${(props) => props.theme['gray-500']};
+  }
+`
+
+export const SummaryWarning = styled.span`
+  display: flex;
+  align-items: center;
+  line-height: 0;
+  gap: 0.3125rem;
+  padding: 10px 0;
+  font-size: 0.875rem;
+  color: ${(props) => props.theme['gray-500']};
+
+  @media screen and (min-width: 1200px) {
+    display: none;
+  }
+
+  svg {
+    line-height: 0;
   }
 `
