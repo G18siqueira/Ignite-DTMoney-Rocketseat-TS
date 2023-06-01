@@ -1,3 +1,20 @@
 {
-  "transactions": []
+  "transactions": [
+    {
+      "id": "abe18276-da7b-407d-91e0-36420a52d1c9",
+      "description": "Salário ",
+      "type": "income",
+      "category": "pagamentos",
+      "price": 6000,
+      "createdAt": "2023-06-01T03:12:59.428Z"
+    },
+    {
+      "id": "3fbfa2f8-bdf4-45f9-aadb-f25f49cce4d3",
+      "description": "Conta de Luz",
+      "type": "outcome",
+      "category": "contas",
+      "price": 150,
+      "createdAt": "2023-06-01T03:13:09.444Z"
+    }
+  ]
 }
