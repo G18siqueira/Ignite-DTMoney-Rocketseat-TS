@@ -161,6 +161,12 @@ export const PaginationContainer = styled.section`
   margin: 2.5rem 0;
 `
 
+export const PaginationWarning = styled.p`
+  font-size: 20px;
+  font-weight: bold;
+  color: ${(props) => props.theme['gray-400']};
+`
+
 export const PaginationButtonCurrent = styled.button`
   display: flex;
   align-items: center;

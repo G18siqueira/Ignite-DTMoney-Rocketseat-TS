@@ -21,6 +21,7 @@ import {
   PaginationButtonPage,
   PaginationButtonPageContainer,
   PaginationContainer,
+  PaginationWarning,
   PriceHighLight,
   TransactionsContainer,
   TransactionsTable,
@@ -181,7 +182,9 @@ export const Transactions = () => {
             </PaginationContainer>
           ) : (
             <PaginationContainer>
-              <h1>Não existe transações no momento</h1>
+              <PaginationWarning>
+                Cadastre uma nova transação!
+              </PaginationWarning>
             </PaginationContainer>
           )}
         </Container>
